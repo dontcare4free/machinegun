@@ -10,9 +10,7 @@ object MachineGunBuild extends Build {
       val Objenesis = "1.3"
 		}
     val ScalaReflect = "org.scala-lang" % "scala-reflect" % V.Scala
-		val Snakeyaml = "org.yaml" % "snakeyaml" % V.Snakeyaml
     val ScalaTest = "org.scalatest" %% "scalatest" % V.ScalaTest
-    val Objenesis = "org.objenesis" % "objenesis" % V.Objenesis
 	}
 
 	override def settings = super.settings ++ Seq(
@@ -24,13 +22,8 @@ object MachineGunBuild extends Build {
     parallelExecution in Test := false
 	)
 
-	lazy val root = Project("root", file(".")) aggregate (server, yaml)
+	lazy val root = Project("root", file(".")) aggregate (server, defaultServer)
 
-	lazy val server = Project("machine-gun-server", file("machine-gun-server")) dependsOn yaml
-	lazy val yaml = Project("yaml-gun", file("yaml-gun")) settings (
-		libraryDependencies ++= Seq(
-      Deps.Snakeyaml,
-      Deps.Objenesis
-    )
-	)
+	lazy val server = Project("machine-gun-server", file("machine-gun-server"))
+  lazy val defaultServer = Project("machine-gun-server-default", file("machine-gun-server-default")) dependsOn server
 }
