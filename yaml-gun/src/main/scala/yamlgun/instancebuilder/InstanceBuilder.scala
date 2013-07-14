@@ -2,6 +2,7 @@ package yamlgun.instancebuilder
 
 import scala.util.Try
 import scala.reflect.runtime.universe._
+import scala.reflect.ClassTag
 
 trait InstanceBuilder[T] {
   /**
@@ -17,6 +18,7 @@ trait InstanceBuilder[T] {
 
 trait ReflectingInstanceBuilder[T] extends InstanceBuilder[T] {
   protected implicit val t: TypeTag[T]
+  protected implicit val ct: ClassTag[T]
 
   override def build(values: Map[String, Any]): Try[T] = Try[T] {
     val obj = create

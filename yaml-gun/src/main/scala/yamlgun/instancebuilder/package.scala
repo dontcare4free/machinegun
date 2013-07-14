@@ -1,13 +1,13 @@
 package yamlgun
 
 import scala.reflect.runtime.universe._
+import scala.reflect.ClassTag
 
 package object instancebuilder {
-  private type RawCaseClassApi[T] = {
-    def copy(): T with CaseClassApi[T]
-  }
-  type CaseClassApi[T] = RawCaseClassApi[T] with Product
+  type CaseClassApi[T] = ({
+    def copy(): T
+  }) with Product
 
-  implicit def caseClassInstanceBuilder[T <: CaseClassApi[T]](default: T)(implicit t: TypeTag[T]) =
+  implicit def caseClassInstanceBuilder[T <: CaseClassApi[T] : TypeTag : ClassTag](default: T) =
     new CaseClassInstanceBuilder[T](default)
 }

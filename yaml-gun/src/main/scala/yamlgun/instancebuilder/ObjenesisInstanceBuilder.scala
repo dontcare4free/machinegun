@@ -11,7 +11,7 @@ object ObjenesisInstanceBuilder {
 /**
  * @note Objenesis does *not* call the constructor of the class, which means that it has problems dealing with inner classes
  */
-class ObjenesisInstanceBuilder[T](implicit val t: TypeTag[T], ct: ClassTag[T]) extends ReflectingInstanceBuilder[T] {
+class ObjenesisInstanceBuilder[T](implicit val t: TypeTag[T], val ct: ClassTag[T]) extends ReflectingInstanceBuilder[T] {
   import ObjenesisInstanceBuilder.objenesis
 
   override def create: T = objenesis.newInstance(ct.runtimeClass).asInstanceOf[T]
