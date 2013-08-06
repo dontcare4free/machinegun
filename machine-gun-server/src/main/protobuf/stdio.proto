@@ -1,0 +1,11 @@
+package machinegun.proto;
+
+message StdoutChunk {
+    required string content = 1;
+
+    enum Stream {
+        STDOUT = 0;
+        STDERR = 1;
+    }
+    optional Stream stream = 2 [default = STDOUT];
+}
